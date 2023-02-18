@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Timer Auto", kTimedAuto);
     m_chooser.addOption("Gyro Auto", kGyroAuto);
     m_chooser.addOption("Camera Auto", kCameraAuto);
-    m_chooser.addOption("Stebalise:", kStabilize);
+    m_chooser.addOption("Stabilize Auto", kStabilize);
     SmartDashboard.putData("Auto choices", m_chooser);
   }
 
@@ -43,6 +43,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autoSelected = m_chooser.getSelected();
+    SmartDashboard.putNumber("Time", 0.01);
+    SmartDashboard.updateValues();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
   }
@@ -58,7 +60,7 @@ public class Robot extends TimedRobot {
         Automonus.Camera();
         break;
       case kStabilize:
-        Automonus.Stabilse();
+        Automonus.Stabilize();
         break;
       case kTimedAuto:
       default:
@@ -93,7 +95,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
-    Automonus.Stabilse(); //still on testing...(TODO: fine tune)
+    Automonus.Stabilize(); //still on testing...(TODO: fine tune)
   }
 
   /** This function is called once when the robot is first started up. */

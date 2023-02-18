@@ -6,8 +6,8 @@ import static frc.robot.Constants.accelerometer;
 
 public class Autonomous {
     public void Timed() {
-        double time = SmartDashboard.getNumber("Time of running motor: ", 0.0);
-        Autonomus_utils.drive.meter_drive(time, false);
+        double time = SmartDashboard.getNumber("Time ", 0.0);
+        Autonomus_utils.drive.meter_drive(time, false); 
     }
     public void Gyro() {
         
@@ -15,7 +15,7 @@ public class Autonomous {
     public void Camera() {
         PhotonVision.Auto();
     }
-    public void Stabilse() {
+    public void Stabilize() {
         double y_accel = accelerometer.getY();
         driveTrain.arcadeDrive(y_accel*100,0);
     }
@@ -34,6 +34,9 @@ public class Autonomous {
                 driveTrain.stopMotor();
                 timer.stop();
             }
+            /* 
+            TODO: Create the algorithm(requires extensive data...) 
+            */
             private static Double calculate_distance_to_time(Double x) {
                 return x;
             }

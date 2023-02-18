@@ -11,14 +11,13 @@ public class PhotonVision {
     }
     public static void Auto() {
         var result = PhotonVision.cam();
-        PhotonTrackedTarget target = result.getBestTarget();
         boolean hasTargets = result.hasTargets();
-        double yaw = target.getYaw();
-        double pitch = target.getPitch();
-        double area = target.getArea();
-        double skew = target.getSkew();
         if (hasTargets) {
-
+            PhotonTrackedTarget target = result.getBestTarget();
+            double yaw = target.getYaw();
+            double pitch = target.getPitch();
+            double area = target.getArea();
+            double skew = target.getSkew();
         }
     }
 }

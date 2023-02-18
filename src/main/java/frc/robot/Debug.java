@@ -13,19 +13,19 @@ public  class Debug {
     }
     public static void PhotonVison() {
         var result = PhotonVision.cam();
-        PhotonTrackedTarget target = result.getBestTarget();
         boolean hasTargets = result.hasTargets();
-        double yaw = target.getYaw();
-        double pitch = target.getPitch();
-        double area = target.getArea();
-        double skew = target.getSkew();
-        System.out.println(result);
         SmartDashboard.putBoolean("Target Detected: ", hasTargets);
         if (hasTargets) {
+            PhotonTrackedTarget target = result.getBestTarget();
+            double yaw = target.getYaw();
+            double pitch = target.getPitch();
+            double area = target.getArea();
+            double skew = target.getSkew();
             SmartDashboard.putNumber("Yaw: ", yaw);
             SmartDashboard.putNumber("Pitch: ", pitch);
             SmartDashboard.putNumber("Area: ", area);
             SmartDashboard.putNumber("Skew: ", skew);
+            SmartDashboard.updateValues();
         }
     }
     private static class Debug_utils{
