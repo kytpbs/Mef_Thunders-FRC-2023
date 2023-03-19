@@ -33,5 +33,5 @@ public final class Constants{
     public static Autonomous Automonus = new Autonomous();
     public static Teleop teleop = new Teleop();
     public static Timer timer = new Timer();
-    public static PhotonCamera camera = new PhotonCamera("Picam");
+    public static PhotonCamera camera = new PhotonCamera("IMX219");
 }

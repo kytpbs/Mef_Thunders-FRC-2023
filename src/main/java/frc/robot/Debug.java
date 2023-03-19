@@ -1,5 +1,6 @@
 package frc.robot;
 import static frc.robot.Constants.accelerometer;
+import static frc.robot.Constants.camera;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -12,7 +13,7 @@ public  class Debug {
         SmartDashboard.updateValues();
     }
     public static void PhotonVison() {
-        var result = PhotonVision.cam();
+        var result = camera.getLatestResult();
         boolean hasTargets = result.hasTargets();
         SmartDashboard.putBoolean("Target Detected: ", hasTargets);
         if (hasTargets) {
@@ -27,8 +28,5 @@ public  class Debug {
             SmartDashboard.putNumber("Skew: ", skew);
             SmartDashboard.updateValues();
         }
-    }
-    private static class Debug_utils{
-        
     }
 }
