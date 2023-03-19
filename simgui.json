@@ -11,11 +11,6 @@
       "window": {
         "visible": true
       }
-    },
-    "RoboRIO": {
-      "window": {
-        "visible": true
-      }
     }
   },
   "NTProvider": {
