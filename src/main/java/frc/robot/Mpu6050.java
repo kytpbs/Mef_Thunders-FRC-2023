@@ -32,28 +32,28 @@ public class Mpu6050 {
 
     public Integer Gyro_x() {
         int x = read(gyro_x_out);
-        return x;
+        return x/131;
     }
     public Integer Gyro_y() {
         int y = read(gyro_y_out);
-        return y;
+        return y/131;
     }
     public Integer Gyro_z() {
         int z = read(gyro_z_out);
-        return z;
+        return z/131;
     }
 
-    public Integer Accel_x() {
+    public double Accel_x() {
         int x = read(accel_x_out);
-        return x;
+        return x/16384.0;
     }
-    public Integer Accel_y() {
+    public double Accel_y() {
         int y = read(accel_y_out);
-        return y;
+        return y/16384.0;
     }
-    public Integer Accel_z() {
+    public double Accel_z() {
         int z = read(accel_z_out);
-        return z;
+        return z/16384.0;
     }
 
     public Integer read(int adress) {
