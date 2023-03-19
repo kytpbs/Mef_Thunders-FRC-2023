@@ -27,6 +27,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    
     Gyro.init();
     m_chooser.setDefaultOption("Timer Auto", kTimedAuto);
     m_chooser.addOption("Gyro Auto", kGyroAuto);
