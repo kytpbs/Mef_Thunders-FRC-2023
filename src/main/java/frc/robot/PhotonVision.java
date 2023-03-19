@@ -1,19 +1,27 @@
 package frc.robot;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import static frc.robot.Constants.driveTrain;
 import static frc.robot.Constants.camera;
 
 public class PhotonVision {
     public static void Auto() {
+    public static void Dashboard() {
         var result = camera.getLatestResult();
         boolean hasTargets = result.hasTargets();
+        SmartDashboard.putBoolean("Target Detected: ", hasTargets);
         if (hasTargets) {
             PhotonTrackedTarget target = result.getBestTarget();
             double yaw = target.getYaw();
             double pitch = target.getPitch();
             double area = target.getArea();
             double skew = target.getSkew();
+            SmartDashboard.putNumber("Yaw: ", yaw);
+            SmartDashboard.putNumber("Pitch: ", pitch);
+            SmartDashboard.putNumber("Area: ", area);
+            SmartDashboard.putNumber("Skew: ", skew);
         }
     }
     public static void Yaw_Correction(Double Rotation_Speed) {
