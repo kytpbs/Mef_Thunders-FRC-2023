@@ -14,7 +14,7 @@ import static frc.robot.Constants.teleop;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.net.PortForwarder;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -27,6 +27,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    PortForwarder.add(5800, "photonvision.local", 5800);
     m_chooser.setDefaultOption("Timer Auto", kTimedAuto);
     m_chooser.addOption("Gyro Auto", kGyroAuto);
     m_chooser.addOption("Camera Auto", kCameraAuto);
