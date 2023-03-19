@@ -12,19 +12,23 @@ public class Autonomous {
         SmartDashboard.putNumber("Rotation Speed", 0.4);
         SmartDashboard.putNumber("Wanted Area", 10);
     }
+    
     public void Timed() {
         double time = SmartDashboard.getNumber("Time ", 0.01);
         Autonomus_utils.drive.meter_drive(time, false); 
     }
+    
     public void Gyro() {
         
     }
+    
     public void Camera() {
         Double speed = SmartDashboard.getNumber("Movement Speed", 0.4);
         Double Rotation_Speed = SmartDashboard.getNumber("Rotation Speed", 0.4);
         Integer Wanted_Area_Percantage = (int)SmartDashboard.getNumber("Wanted Area", 10);
         PhotonVision.Auto(speed, Rotation_Speed, Wanted_Area_Percantage);
     }
+    
     public void Stabilize() {
         double y_accel = accelerometer.getY();
         driveTrain.arcadeDrive(y_accel*100,0);
@@ -49,9 +53,7 @@ public class Autonomous {
                 driveTrain.stopMotor();
                 timer.stop();
             }
-            /* 
-            TODO: Create the algorithm(requires extensive data...) 
-            */
+            
             private static Double calculate_distance_to_time(Double x) {
                 return x;
             }
