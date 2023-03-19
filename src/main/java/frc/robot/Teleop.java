@@ -3,6 +3,9 @@ import static frc.robot.Constants.driveTrain;
 import static frc.robot.Constants.stick;
 
 public class Teleop {
+    public void init() {
+      driveTrain.setSafetyEnabled(true);
+    }
     public void drive() {
         driveTrain.arcadeDrive(stick.getY(), stick.getZ(),true);
     }

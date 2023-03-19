@@ -5,6 +5,9 @@ import static frc.robot.Constants.driveTrain;
 import static frc.robot.Constants.accelerometer;
 
 public class Autonomous {
+    public void init() {
+        driveTrain.setSafetyEnabled(false);
+    }
     public void Timed() {
         double time = SmartDashboard.getNumber("Time ", 0.0);
         Autonomus_utils.drive.meter_drive(time, false); 
