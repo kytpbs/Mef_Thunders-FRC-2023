@@ -13,6 +13,7 @@ public class Autonomous {
         SmartDashboard.putNumber("Wanted Area", 10);
     }
     public void Timed() {
+        double time = SmartDashboard.getNumber("Time ", 0.01);
         Autonomus_utils.drive.meter_drive(time, false); 
     }
     public void Gyro() {
@@ -30,11 +31,16 @@ public class Autonomous {
     }
     private static class Autonomus_utils {
         private static class drive {
-            private static void meter_drive(Double x, Boolean meter) {
+            /**
+             * Drives the robot a certain distance or time
+             * @param x Amount of distance or time to drive
+             * @param is_distance if true, x is distance, if false, x is time
+             */
+            private static void meter_drive(Double x, Boolean is_distance) {
                 timer.start();
                 timer.reset();
                 double time = x;
-                if (meter) {
+                if (is_distance) {
                     time = calculate_distance_to_time(x);
                 }
                 while (timer.get() < time){
