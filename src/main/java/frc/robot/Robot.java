@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     PortForwarder.add(5800, "photonvision.local", 5800);
-    gyro.init();
+    Gyro.init();
     m_chooser.setDefaultOption("Timer Auto", kTimedAuto);
     m_chooser.addOption("Gyro Auto", kGyroAuto);
     m_chooser.addOption("Camera Auto", kCameraAuto);
