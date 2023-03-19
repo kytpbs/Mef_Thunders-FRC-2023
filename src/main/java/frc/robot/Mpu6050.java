@@ -21,45 +21,62 @@ public class Mpu6050 {
         mpu6050.write(power_mgmt_1, 0);
     }
 
-    public void Accoleremeter_read() {
-        byte[] data = new byte[6];
-        mpu6050.read(0x3b, 6, data);
-        int x = (data[0] << 8) + data[1];
-        int y = (data[2] << 8) + data[3];
-        int z = (data[4] << 8) + data[5];
-        System.out.println("x: " + x + " y: " + y + " z: " + z);
-    }
-
-    public Integer Gyro_x() {
-        int x = read(gyro_x_out);
-        return x/131;
-    }
-    public Integer Gyro_y() {
-        int y = read(gyro_y_out);
-        return y/131;
-    }
-    public Integer Gyro_z() {
-        int z = read(gyro_z_out);
-        return z/131;
-    }
-
-    public double Accel_x() {
-        int x = read(accel_x_out);
-        return x/16384.0;
-    }
-    public double Accel_y() {
-        int y = read(accel_y_out);
-        return y/16384.0;
-    }
-    public double Accel_z() {
-        int z = read(accel_z_out);
-        return z/16384.0;
-    }
-
     public Integer read(int adress) {
         byte[] data = new byte[2];
         mpu6050.read(adress, 2, data);
         int x = (data[0] << 8) + data[1];
         return x;
+    }
+    
+    public Double dist(Double x, Double y) {
+        return Math.sqrt(x*x + y*y);
+    }
+
+
+    public Integer get_Gyro_x() {
+        int x = read(gyro_x_out);
+        return x/131;
+    }
+    
+    public Integer get_Gyro_y() {
+        int y = read(gyro_y_out);
+        return y/131;
+    }
+    
+    public Integer get_Gyro_z() {
+        int z = read(gyro_z_out);
+        return z/131;
+    }
+
+    public Double get_x_Rotation() {
+        double x = get_Gyro_x();
+        double y = get_Gyro_y();
+        double z = get_Gyro_z();
+        double radians = Math.atan2(x, dist(y,z));
+        return -Math.toDegrees(radians);
+    }
+    
+    public Double get_y_Rotation() {
+        double x = get_Gyro_x();
+        double y = get_Gyro_y();
+        double z = get_Gyro_z();
+        double radians = Math.atan2(y, dist(x,z));
+        return Math.toDegrees(radians);
+    }
+
+    
+    public double get_Accel_x() {
+        int x = read(accel_x_out);
+        return x/16384.0;
+    }
+    
+    public double get_Accel_y() {
+        int y = read(accel_y_out);
+        return y/16384.0;
+    }
+   
+    public double get_Accel_z() {
+        int z = read(accel_z_out);
+        return z/16384.0;
     }
 }
