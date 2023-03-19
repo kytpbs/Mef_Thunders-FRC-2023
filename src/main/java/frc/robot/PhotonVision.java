@@ -1,5 +1,4 @@
 package frc.robot;
-import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -7,7 +6,10 @@ import static frc.robot.Constants.driveTrain;
 import static frc.robot.Constants.camera;
 
 public class PhotonVision {
-    public static void Auto() {
+    public static void Auto(Double speed, Double Rotation_Speed, Integer Wanted_Area_Percantage) {
+        Area_Correction(speed, Rotation_Speed, Wanted_Area_Percantage);
+    }
+    
     public static void Dashboard() {
         var result = camera.getLatestResult();
         boolean hasTargets = result.hasTargets();
@@ -45,18 +47,17 @@ public class PhotonVision {
      * @warn Be sure to Have the camera set up right so that it doesn't get random targets.
      * @param Rotation_Speed The speed of the rotation.
      */
-    public static void Area_Correction(Double speed, Double Rotation_Speed) {
+    public static void Area_Correction(Double speed, Double Rotation_Speed, Integer Wanted_Area_Percantage) {
         Yaw_Correction(Rotation_Speed);
         var result = camera.getLatestResult();
         boolean hasTargets = result.hasTargets();
         if (hasTargets) {
             PhotonTrackedTarget target = result.getBestTarget();
-            double yaw = target.getYaw();
             double area = target.getArea();
-            if (area > 20) {
+            if (area > Wanted_Area_Percantage) {
                 driveTrain.arcadeDrive(speed, 0);
             } 
-            else if (area < 20) {
+            else if (area < Wanted_Area_Percantage) {
                 driveTrain.arcadeDrive(-speed, 0);
             } 
             else {

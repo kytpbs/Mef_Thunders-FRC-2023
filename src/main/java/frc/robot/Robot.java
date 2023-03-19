@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autoSelected = m_chooser.getSelected();
-    SmartDashboard.putNumber("Time", 0.01);
+    Automonus.init();
     SmartDashboard.updateValues();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
@@ -71,7 +71,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called once when teleop is enabled. */
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    teleop.init();
+  }
 
   /** This function is called periodically during operator control. */
   @Override
@@ -94,9 +96,7 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {
-    Automonus.Stabilize(); //still on testing...(TODO: fine tune)
-  }
+  public void testPeriodic() {}
 
   /** This function is called once when the robot is first started up. */
   @Override
