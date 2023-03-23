@@ -1,13 +1,28 @@
 package frc.robot;
 import org.photonvision.targeting.PhotonTrackedTarget;
+import org.photonvision.PhotonUtils;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.util.Units;
 
 import static frc.robot.Constants.driveTrain;
 import static frc.robot.Constants.camera;
+import static frc.robot.Constants.fowardController;
+import static frc.robot.Constants.turnController;
+
+import static frc.robot.Constants.photonvision.CAMERA_HEIGHT_METERS;
+import static frc.robot.Constants.photonvision.CAMERA_PITCH_RADIANS;
+import static frc.robot.Constants.photonvision.TARGET_HEIGHT_METERS;
+
 
 public class PhotonVision {
-    public static void Auto(Double speed, Double Rotation_Speed, Integer Wanted_Area_Percantage) {
-        Area_Correction(speed, Rotation_Speed, Wanted_Area_Percantage);
+    static double rotation_Speed;
+    static double forward_Speed;
+
+    public static void Auto(Integer wanted_meter_diffrence, double max_rotation_speed, double max_foward_speed) {
+        rotation_Speed = Yaw_Correction();
+        forward_Speed = Area_Correction(wanted_meter_diffrence);
+
+        driveTrain.arcadeDrive(forward_Speed*max_foward_speed, rotation_Speed*max_foward_speed);
     }
     
     public static void Dashboard() {
@@ -26,43 +41,37 @@ public class PhotonVision {
             SmartDashboard.putNumber("Skew: ", skew);
         }
     }
-    public static void Yaw_Correction(Double Rotation_Speed) {
+    
+    public static Double Yaw_Correction() {
         var result = camera.getLatestResult();
         boolean hasTargets = result.hasTargets();
         if (hasTargets) {
             PhotonTrackedTarget target = result.getBestTarget();
             double yaw = target.getYaw();
-            if (yaw > 0) {
-                driveTrain.arcadeDrive(0, -Rotation_Speed);
-            } else if (yaw < 0) {
-                driveTrain.arcadeDrive(0, Rotation_Speed);
-            } else {
-                driveTrain.arcadeDrive(0, 0);
-            }
+            rotation_Speed = -turnController.calculate(yaw,0);
+            return rotation_Speed;
+        }
+        else {
+            return 0.0;
         }
     }
-    /** This is the area correction method Using The Camera. 
-     * @param speed The speed of the robot.
-     * @warn This method does yaw correction as well.
-     * @warn Be sure to Have the camera set up right so that it doesn't get random targets.
-     * @param Rotation_Speed The speed of the rotation.
-     */
-    public static void Area_Correction(Double speed, Double Rotation_Speed, Integer Wanted_Area_Percantage) {
-        Yaw_Correction(Rotation_Speed);
+
+    public static Double Area_Correction(int goal) {
         var result = camera.getLatestResult();
         boolean hasTargets = result.hasTargets();
         if (hasTargets) {
             PhotonTrackedTarget target = result.getBestTarget();
             double area = target.getArea();
-            if (area > Wanted_Area_Percantage) {
-                driveTrain.arcadeDrive(speed, 0);
-            } 
-            else if (area < Wanted_Area_Percantage) {
-                driveTrain.arcadeDrive(-speed, 0);
-            } 
-            else {
-                driveTrain.arcadeDrive(0, 0);
-            }
+            double range = PhotonUtils.calculateDistanceToTargetMeters(
+                                    CAMERA_HEIGHT_METERS,
+                                    TARGET_HEIGHT_METERS,
+                                    CAMERA_PITCH_RADIANS,
+                                    Units.degreesToRadians(area));
+            forward_Speed = fowardController.calculate(range, goal);
+            return forward_Speed;
+        }
+        else {
+            return 0.0;
         }
     }
 }

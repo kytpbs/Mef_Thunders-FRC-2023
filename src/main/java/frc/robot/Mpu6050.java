@@ -28,11 +28,34 @@ public class Mpu6050 {
      * @param adress The adress to read from
      * @return The value read
      */
-    public Integer read(int adress) {
+    public Double read2(int adress) {
         byte[] data = new byte[2];
+        byte[] high = new byte[1];
+        byte[] low = new byte[1]; 
+        mpu6050.read(adress, 1 , high);
+        mpu6050.read(adress + 1, 1 , low);
+        double val = (high[0] << 8 ) + low[0];
+        
+
         mpu6050.read(adress, 2, data);
-        int x = (data[0] << 8) + data[1];
-        return x;
+        double x = (data[0] << 8) + data[1];
+        return val;
+    }
+    public Double read(int adress) {
+        double val = read2(adress);
+        if (val >= 0x8000) {
+            return -((65535- val) + 1);
+        }
+        else {
+            return val;
+        }
+    }
+    public void wait(int mili_seconds) {
+        try {
+            mpu6050.wait(mili_seconds);
+        } catch (InterruptedException e) {
+            System.out.print("error: " + e);
+        }
     }
     
     /**
@@ -45,18 +68,18 @@ public class Mpu6050 {
         return Math.sqrt(x*x + y*y);
     }
 
-    public Integer get_Gyro_x() {
-        int x = read(gyro_x_out);
+    public Double get_Gyro_x() {
+        double x = read(gyro_x_out);
         return x/131;
     }
     
-    public Integer get_Gyro_y() {
-        int y = read(gyro_y_out);
+    public Double get_Gyro_y() {
+        double y = read(gyro_y_out);
         return y/131;
     }
     
-    public Integer get_Gyro_z() {
-        int z = read(gyro_z_out);
+    public Double get_Gyro_z() {
+        double z = read(gyro_z_out);
         return z/131;
     }
 
@@ -85,17 +108,17 @@ public class Mpu6050 {
 
 
     public double get_Accel_x() {
-        int x = read(accel_x_out);
+        double x = read(accel_x_out);
         return x/16384.0;
     }
     
     public double get_Accel_y() {
-        int y = read(accel_y_out);
+        double y = read(accel_y_out);
         return y/16384.0;
     }
     
     public double get_Accel_z() {
-        int z = read(accel_z_out);
+        double z = read(accel_z_out);
         return z/16384.0;
     }
 }

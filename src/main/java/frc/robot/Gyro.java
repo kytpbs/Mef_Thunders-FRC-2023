@@ -15,5 +15,8 @@ public class Gyro {
         SmartDashboard.putNumber("Gyro Z", mpu6050.get_Gyro_z());
         SmartDashboard.putNumber("Gyro X Rotation", mpu6050.get_x_Rotation());
         SmartDashboard.putNumber("Gyro Y Rotation", mpu6050.get_y_Rotation());
+        SmartDashboard.putNumber("mpu6050 X accel:", mpu6050.get_Accel_x());
+        SmartDashboard.putNumber("mpu6050 y accel:", mpu6050.get_Accel_y());
+        SmartDashboard.putNumber("mpu6050 z accel:", mpu6050.get_Accel_z());
     }
 }

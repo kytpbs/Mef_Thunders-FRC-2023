@@ -10,11 +10,13 @@ import static frc.robot.Constants.kGyroAuto;
 import static frc.robot.Constants.kTimedAuto;
 import static frc.robot.Constants.kStabilize;
 import static frc.robot.Constants.teleop;
+import static frc.robot.Constants.rightMotorsGroup;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.net.PortForwarder;
+import edu.wpi.first.wpilibj.Timer;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -22,13 +24,21 @@ import edu.wpi.first.net.PortForwarder;
  * project.
  */
 public class Robot extends TimedRobot {
+  Timer timer = new Timer();
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private double temp = 0.1;
 
   @Override
   public void robotInit() {
+    Automonus.init();
+    rightMotorsGroup.setInverted(true);
     PortForwarder.add(5800, "photonvision.local", 5800);
     Gyro.init();
+    timer.reset();
+    timer.start();
+    SmartDashboard.putNumber("Linear_P", 0.1);
+    SmartDashboard.putNumber("Linear_D", 0.0);
     m_chooser.setDefaultOption("Timer Auto", kTimedAuto);
     m_chooser.addOption("Gyro Auto", kGyroAuto);
     m_chooser.addOption("Camera Auto", kCameraAuto);
@@ -40,12 +50,15 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     Debug.acceloremeter();
     Debug.PhotonVison();
+    if (timer.get() - temp >= 0.5) {
+      Gyro.Gyro_dashboard();
+      temp = timer.get();
+    }
   }
 
   @Override
   public void autonomousInit() {
     m_autoSelected = m_chooser.getSelected();
-    Automonus.init();
     SmartDashboard.updateValues();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);

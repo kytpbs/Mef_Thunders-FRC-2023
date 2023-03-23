@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -11,6 +13,11 @@ import org.photonvision.PhotonCamera;
 import edu.wpi.first.wpilibj.Timer;
 
 public final class Constants{
+    static class photonvision {
+        public static final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(1/4);
+        public static final double TARGET_HEIGHT_METERS = 14;
+        public static final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(27);
+    }
     public static PWMSparkMax leftMotor1 = new PWMSparkMax(0);
     public static PWMSparkMax leftMotor2 = new PWMSparkMax(1);
     public static PWMSparkMax rightMotor1 = new PWMSparkMax(2);
@@ -18,6 +25,9 @@ public final class Constants{
     public static MotorControllerGroup rightMotorsGroup = new MotorControllerGroup(rightMotor1,rightMotor2);
     public static MotorControllerGroup leftMotorsGroup  = new MotorControllerGroup(leftMotor1, leftMotor2);
     public static DifferentialDrive driveTrain = new DifferentialDrive(leftMotorsGroup,rightMotorsGroup);
+
+    public static PIDController fowardController = new PIDController(0.1, 0, 0);
+    public static PIDController turnController = new PIDController(0.1, 0, 0);
 
     public static Joystick stick = new Joystick(0);
 
